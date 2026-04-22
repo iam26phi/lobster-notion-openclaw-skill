@@ -1,0 +1,77 @@
+{
+  "agent_id": "atlach-nacha",
+  "timezone": "Asia/Tokyo",
+  "discord": {
+    "review_channel_id": "REPLACE_WITH_YOUR_DISCORD_CHANNEL_ID",
+    "approve_emoji": "✅"
+  },
+  "notion": {
+    "database_id": "34a3785a098a807fab03f43f07d784c6",
+    "data_source_id": "34a3785a-098a-8008-858d-000bbd9fb2b4",
+    "shared": true,
+    "category_option": "自我進化",
+    "field_map": {
+      "title": "標題",
+      "date": "分享日期",
+      "content": "學習內容",
+      "category": "類別"
+    }
+  },
+  "tracked_paths": [
+    "agents/*/AGENTS.md",
+    "agents/*/SOUL.md",
+    "agents/*/IDENTITY.md",
+    "agents/*/TOOLS.md",
+    "agents/*/USER.md",
+    "agents/*/HEARTBEAT.md",
+    "workspace/AGENTS.md",
+    "workspace/USER-GUIDE.md",
+    "workspace/USER.md",
+    "workspace/IDENTITY.md",
+    "workspace/SOUL.md",
+    "workspace/TOOLS.md",
+    "workspace/HEARTBEAT.md",
+    "workspace/STORY.md",
+    "workspace/MEMORY.md",
+    "workspace/CHANGELOG-CC.md",
+    "workspace/DREAMS.md",
+    "cron/jobs.json",
+    "openclaw.json",
+    "skills/*/SKILL.md",
+    "skills/*/skill.json",
+    "skills/*/README.md",
+    "skills/*/config.example.json"
+  ],
+  "excluded_paths": [
+    "agents/*/sessions/",
+    "workspace/self-evolution/",
+    "*.bak",
+    "*.bak-*",
+    "*.bak.*",
+    "*.log"
+  ],
+  "manifests": {
+    "skills_list": true,
+    "agents_list": true,
+    "extensions_list": true,
+    "vendor_heads": true
+  },
+  "report": {
+    "max_chars": 600,
+    "bullet_count": 5,
+    "language": "zh-TW",
+    "tone": "你今天做了 X"
+  },
+  "skip_on_empty_diff": true,
+  "noise_filters": {
+    "cron/jobs.json": [
+      "updatedAtMs",
+      "createdAtMs",
+      "nextRunAtMs",
+      "lastRunAtMs",
+      "lastDurationMs",
+      "consecutiveErrors",
+      "state"
+    ]
+  }
+}

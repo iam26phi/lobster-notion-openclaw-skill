@@ -1,0 +1,59 @@
+[
+  {
+    "__template_note__": "Register this job in ~/.openclaw/cron/jobs.json under .jobs[]. Replace <UUID>, <AGENT_ID>, <REVIEW_CHANNEL_ID>. Timezone defaults to Asia/Tokyo.",
+    "id": "<UUID-04:30-snapshot>",
+    "agentId": "atlach-nacha",
+    "name": "daily-growth-report-snapshot-0430",
+    "description": "04:30 Asia/Tokyo — snapshot OpenClaw state, diff vs yesterday, write draft to workspace/self-evolution/drafts/<DATE>.md. No Discord post yet.",
+    "enabled": false,
+    "schedule": {
+      "kind": "cron",
+      "expr": "30 4 * * *",
+      "tz": "Asia/Tokyo"
+    },
+    "sessionTarget": "isolated",
+    "wakeMode": "now",
+    "payload": {
+      "kind": "agentTurn",
+      "message": "你是阿特拉克・納克亞。現在是凌晨 04:30（Asia/Tokyo），daily-growth-report skill 的第一段工作。\n\n步驟：\n1. 執行 shell：`bash ~/.openclaw/skills/daily-growth-report/scripts/snapshot.sh`\n2. 執行 shell：`bash ~/.openclaw/skills/daily-growth-report/scripts/diff.sh`\n3. 拿 diff 的輸出，生成今天的草稿：\n   - 先看 `=== META ===` 段，如果 `first_run: true`，只寫一段短短的「納克亞開始觀察了」開場白（不要條列）。\n   - 否則，基於 `=== STAT ===`、`=== NAMES ===`、`=== PATCH ===`、`=== MANIFESTS ===` 判斷今天真正重要的成長是什麼，寫成：\n     - 300 字以內摘要，繁體中文，語氣是「你今天做了 X」而非「系統偵測到…」\n     - 最多 5 則條列，每則一句話\n     - 忽略純機械變化（cron state、timestamps）\n     - 如果 diff 其實等價於沒變化（skip_on_empty_diff=true 時），寫一句話說「今天沒什麼新東西」\n4. 把草稿寫進 `~/.openclaw/workspace/self-evolution/drafts/<今天日期 YYYY-MM-DD>.md`。檔案第一行是 `# OpenClaw 成長日記 YYYY-MM-DD`，第二行空白，接著正文。\n5. 完成後回覆一句確認：「已寫入草稿 YYYY-MM-DD.md」。\n\n注意：這段 cron 只寫草稿，不發 Discord、不動 Notion。",
+      "timeoutSeconds": 300,
+      "toolsAllow": [
+        "exec",
+        "read",
+        "write"
+      ]
+    },
+    "delivery": {
+      "mode": "none"
+    }
+  },
+  {
+    "__template_note__": "Register this job after the 04:30 job is verified working.",
+    "id": "<UUID-08:00-discord>",
+    "agentId": "atlach-nacha",
+    "name": "daily-growth-report-post-discord-0800",
+    "description": "08:00 Asia/Tokyo — read today's draft and post to Discord review channel. Awaits ✅ reaction before publishing to Notion.",
+    "enabled": false,
+    "schedule": {
+      "kind": "cron",
+      "expr": "0 8 * * *",
+      "tz": "Asia/Tokyo"
+    },
+    "sessionTarget": "isolated",
+    "wakeMode": "now",
+    "payload": {
+      "kind": "agentTurn",
+      "message": "你是阿特拉克・納克亞。現在是早上 08:00（Asia/Tokyo），daily-growth-report skill 的第二段工作。\n\n步驟：\n1. 讀取 `~/.openclaw/workspace/self-evolution/drafts/<今天日期>.md`。如果檔案不存在，回覆「今天還沒有草稿，跳過」並結束。\n2. 用 Discord 工具，把草稿完整貼到 channel <REVIEW_CHANNEL_ID>。訊息開頭加一行：「🐚 今天你的 OpenClaw 又長大了什麼？按 ✅ 會把這份貼到共學團 Notion（類別：自我進化）。」\n3. 記下這則訊息的 message_id，寫入 `~/.openclaw/workspace/self-evolution/drafts/<今天日期>.messageid` 一行純文字。\n4. 完成後回覆一句：「已貼到 Discord，等 ✅ 核可。」\n\n注意：\n- 這段 cron 不會主動貼 Notion。\n- ✅ 後的 Notion publish 流程見 `skills/daily-growth-report/docs/approval-flow.md`。\n- 實際 Notion 寫入由 `notion-api` skill 負責（「學習分享」已登記為 registry 第 7 筆），本 skill 不直接呼叫 notion-* MCP tools。",
+      "timeoutSeconds": 120,
+      "toolsAllow": [
+        "exec",
+        "read",
+        "write",
+        "message"
+      ]
+    },
+    "delivery": {
+      "mode": "none"
+    }
+  }
+]

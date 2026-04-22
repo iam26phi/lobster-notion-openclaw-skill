@@ -1,0 +1,6 @@
+# 個人設定，絕不發布
+config.json
+
+# 系統雜項
+.DS_Store
+*.log

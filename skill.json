@@ -1,0 +1,50 @@
+{
+  "name": "daily-growth-report",
+  "version": "0.1.0",
+  "description": "Daily snapshot + human-readable summary of your OpenClaw evolution. Posts to Discord for review, then forwards to Notion on ✅ reaction.",
+  "author": "龍蝦補完計畫 共學團",
+  "license": "MIT",
+  "keywords": [
+    "daily",
+    "self-evolution",
+    "growth",
+    "report",
+    "discord",
+    "notion",
+    "cohort"
+  ],
+  "sbom": {
+    "files": [
+      { "path": "SKILL.md", "required": true, "description": "Skill overview and design decisions" },
+      { "path": "config.example.json", "required": true, "description": "Config template — copy to config.json and fill in IDs" },
+      { "path": "scripts/snapshot.sh", "required": true, "description": "Build today's snapshot into the shadow git repo" },
+      { "path": "scripts/diff.sh", "required": true, "description": "Produce machine-readable diff vs yesterday" },
+      { "path": "scripts/run-once.sh", "required": true, "description": "Manual one-shot runner for testing" },
+      { "path": "scripts/publish-notion.sh", "required": true, "description": "Invoked after ✅ reaction; publishes approved draft to Notion" },
+      { "path": "docs/install-guide.md", "required": true, "description": "Step-by-step install guide for 共學團 members" },
+      { "path": "docs/notion-schema.md", "required": true, "description": "Pointer to canonical schema in notion-api skill's database-registry" },
+      { "path": "docs/approval-flow.md", "required": true, "description": "Discord ✅ → Notion approval flow design (delegates Notion writes to notion-api skill)" },
+      { "path": "docs/cron-jobs.json", "required": true, "description": "Cron job templates to register with openclaw cron" }
+    ]
+  },
+  "openclaw": {
+    "emoji": "🐚",
+    "category": "observability",
+    "requires": {
+      "bins": ["rsync", "git", "jq"],
+      "env": [],
+      "skills": ["notion-api"]
+    },
+    "delegates_to": {
+      "notion-api": "All Notion reads/writes. Database = 「學習分享」, registered as entry #7 in notion-api/references/database-registry.md. This skill does NOT call notion-* MCP tools directly — agent turns are instructed to consult the registry and use notion-api's conventions."
+    },
+    "triggers": [
+      "每日成長報告",
+      "daily growth",
+      "openclaw 又長大了什麼",
+      "self-evolution",
+      "龍蝦補完 daily",
+      "共學團每日回顧"
+    ]
+  }
+}
