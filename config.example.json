@@ -1,6 +1,7 @@
 {
   "agent_id": "atlach-nacha",
   "timezone": "Asia/Tokyo",
+  "user_name": "",
   "discord": {
     "review_channel_id": "REPLACE_WITH_YOUR_DISCORD_CHANNEL_ID",
     "approve_emoji": "✅"
@@ -60,7 +61,7 @@
     "max_chars": 600,
     "bullet_count": 5,
     "language": "zh-TW",
-    "tone": "你今天做了 X"
+    "tone": "{user_name} 今天做了 X"
   },
   "skip_on_empty_diff": true,
   "noise_filters": {

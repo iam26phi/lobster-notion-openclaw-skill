@@ -49,6 +49,8 @@ cp config.example.json config.json
 - `discord.review_channel_id` → 你的私人頻道 ID
 - `agent_id` → 預設 `atlach-nacha`；如果你 OpenClaw 沒這個 agent，改成任一個你常用的 agent ID
 
+`user_name` **留空就好** — 第一次執行 cron 時會自動從 `workspace/USER.md` 的「What to call them」抓出你的名字寫回 config，之後草稿會以你的名字為主體（第三人稱）方便在共學團 Notion 裡辨識。想自己指定也可以直接填。
+
 其餘欄位都已預填好，不用動。
 
 ### 5. 第一次跑、確認 snapshot 沒問題
