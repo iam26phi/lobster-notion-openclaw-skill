@@ -1,6 +1,6 @@
 {
   "name": "daily-growth-report",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "Daily snapshot + human-readable summary of your OpenClaw evolution. Posts to Discord for review, then forwards to Notion on ✅ reaction.",
   "author": "龍蝦補完計畫 共學團",
   "license": "MIT",
@@ -20,6 +20,7 @@
       { "path": "scripts/snapshot.sh", "required": true, "description": "Build today's snapshot into the shadow git repo" },
       { "path": "scripts/diff.sh", "required": true, "description": "Produce machine-readable diff vs yesterday" },
       { "path": "scripts/run-once.sh", "required": true, "description": "Manual one-shot runner for testing" },
+      { "path": "scripts/resolve-user-name.sh", "required": true, "description": "First-run bootstrap: derive user_name from workspace/USER.md and persist to config.json" },
       { "path": "scripts/publish-notion.sh", "required": true, "description": "Invoked after ✅ reaction; publishes approved draft to Notion" },
       { "path": "docs/install-guide.md", "required": true, "description": "Step-by-step install guide for 共學團 members" },
       { "path": "docs/notion-schema.md", "required": true, "description": "Pointer to canonical schema in notion-api skill's database-registry" },
